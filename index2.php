@@ -17,7 +17,6 @@ $array_of_rates_on_string = array_slice($data_by_string, 1, $count_of_rates);
 foreach ($array_of_rates_on_string as $rate){
     $rates_by_game[$rate[0]] = substr($rate, 2);
 }
-//Аналогично. $games_results[GameID] = result
 $count_of_games = $data_by_string[(int)$count_of_rates+1];
 $array_of_games_on_string = array_slice($data_by_string, $count_of_games+2);
 
@@ -25,27 +24,24 @@ foreach ($array_of_games_on_string as $game) {
     $games_results[$game[0]] = substr($game, 2);
 }
 
-
-//Смотрим результаты и накапливаем $result
 $rate_result= 0;
 foreach ($games_results as $gameID => $result_of_game)
 {
-    //Разбиваем массив игры и ставки на соответствующие переменные
     $result_of_game = explode(' ', $result_of_game);
     $coefficient_of_loss = (float)$result_of_game[0];
     $coefficient_of_win = (float)$result_of_game[1];
     $coefficient_of_draw = 	(float)$result_of_game[2];
     $game_outcome = $result_of_game[3];
 
-    if (!array_key_exists($gameID, $rates_by_game)) continue; // пропускаем игры, на которые не ставили
-    $rate_on_game = explode(' ', $rates_by_game[$gameID]); // Разбиваем ставку
-    $rate_rate = (int)$rate_on_game[0]; 		// размер ставки
-    $rate_outcome = $rate_on_game[1]; 			// выбор команды
+    if (!array_key_exists($gameID, $rates_by_game)) continue;
+    $rate_on_game = explode(' ', $rates_by_game[$gameID]);
+    $rate_rate = (int)$rate_on_game[0];
+    $rate_outcome = $rate_on_game[1];
 
 
-    if ($rate_outcome != $game_outcome){ //если проиграл
+    if ($rate_outcome != $game_outcome){
         $rate_result-= $rate_rate;
-    } else {				 									  //если выиграл
+    } else {
         switch ($rate_outcome) {
             case 'L':
                 $rate_result = $rate_result + $rate_rate * $coefficient_of_loss - $rate_rate; // прибыль минус ставка
