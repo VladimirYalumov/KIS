@@ -31,7 +31,7 @@ if ($loc_pos == False){
     $loc = 'com';
 }
 
-$result = $result . substr($str, $protocol_end_pos, $loc_pos - $protocol_end_pos) . '.' . $loc . '/' . substr($str1, $loc_rpos);
+$result = $result . substr($str, $protocol_end_pos, $loc_pos - $protocol_end_pos) . '.' . $loc . '/' . substr($str, $loc_rpos);
 
 $fp = fopen('выходные данные для третьей задачи.txt', 'a');
 fwrite($fp, $result);
